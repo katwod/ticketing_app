@@ -1,0 +1,95 @@
+{% load tailwind_tags %}
+{% tailwind_css %}
+
+{% block content %}
+
+<body class="bg-gray-200">
+  <nav class="bg-gray-800">
+    <div class="relative flex items-center justify-between h-16 px-8">
+      <div class="text-xl font-semibold text-white">Ticket System - DZ</div>
+      <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+        <a href="{% url 'logout' %}">
+          <button type="button"
+            class="bg-gray-800 p-1 rounded-full text-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800">
+            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+              stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+            </svg>
+          </button>
+        </a>
+      </div>
+    </div>
+  </nav>
+  <div class="px-4 sm:px-6 lg:px-8 mt-4">
+    <div class="sm:flex sm:items-center">
+      <div class="sm:flex-auto">
+        <h1 class="text-xl font-semibold text-gray-900">Tickets</h1>
+      </div>
+    </div>
+    <div class="-mx-4 mt-8 overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:-mx-6 md:mx-0 md:rounded-lg">
+      <table class="min-w-full divide-y divide-gray-300">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Title</th>
+            <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">Author</th>
+            <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">Assignee</th>
+            <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Status</th>
+            <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell">Created</th>
+            <th class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Deadline</th>
+            <th>
+            </th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200 bg-white">
+          {% for ticket in tickets %}
+          <tr>
+            <td class="w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">
+              {{ticket.title}}
+              {% if ticket.assigned_to.id == user_id %}
+              <span
+                class="inline-flex rounded-full border border-blue-800 px-2 text-xs font-thin leading-5 text-blue-800">assigned
+                to me</span>
+              {% endif %}
+            </td>
+            <td class="px-3 py-4 text-sm text-gray-500 lg:table-cell">{{ticket.author}}</td>
+            <td class="px-3 py-4 text-sm text-gray-500 lg:table-cell">
+              {% if ticket.assigned_to == None %}
+              <form method="POST" action="{% url 'assignTicket' %}">
+                {% csrf_token %}
+                <input type="hidden" name="ticket_id" value="{{ticket.id}}">
+                <input type="hidden" name="assignee_id" value="{{user_id}}">
+                <button type="submit" class="pt-3 text-indigo-600">Assign to myself</button>
+              </form>
+              {% elif ticket.assigned_to.id == user_id and ticket.status != "COMPLETED" %}
+              <a href="{% url 'ticketComplete' ticket.id %}" class="text-indigo-600">Mark as complete<span
+                  class="sr-only">
+                  {% else %}
+                  {{ticket.assigned_to}}
+                  {% endif %}
+            </td>
+            <td class="px-3 py-4 text-sm text-gray-500 sm:table-cell">
+              {% if ticket.status == 'assigned' %}
+              <span
+                class="inline-flex rounded-full bg-blue-100 px-2 text-xs font-semibold leading-5 text-blue-800">{{ticket.status}}</span>
+              {% elif ticket.status == 'Pending' %}
+              <span
+                class="inline-flex rounded-full bg-yellow-100 px-2 text-xs font-semibold leading-5 text-yellow-800">{{ticket.status}}</span>
+              {% else %}
+              <span
+                class="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">{{ticket.status}}</span>
+              {% endif %}
+            </td>
+            <td class="px-3 py-4 text-sm text-gray-500">{{ticket.created_on}}</td>
+            <td class="px-3 py-4 text-sm text-gray-500">{{ticket.deadline}}</td>
+            <td class="py-4 pl-3 pr-4 text-sm font-medium sm:pr-6 text-right">
+              <a href="{% url 'dz_ticket_by_id' ticket.id %}" class="text-indigo-600">View<span class="sr-only">
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  </div>
+  {% endblock %}

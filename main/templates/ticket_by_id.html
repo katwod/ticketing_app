@@ -1,0 +1,128 @@
+{% load tailwind_tags %}
+{% tailwind_css %}
+
+{% block content %}
+<nav class="bg-gray-800">
+  <div class="relative flex items-center justify-between h-16 px-8">
+    <div class="text-xl font-semibold text-white">Ticket System</div>
+    <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+      <a href="{% url 'login'%}">
+        <button type="button"
+          class="bg-gray-800 p-1 rounded-full text-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800">
+          <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+            stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+          </svg>
+        </button>
+      </a>
+    </div>
+  </div>
+</nav>
+<div class="bg-gray-200 min-h-full flex items-center justify-center px-4 sm:px-6">
+  <div class="w-lg w-full space-y-8 mt-n4">
+    <a href="javascript:window.history.back();">
+      <button type="button"
+        class="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto">Return
+      </button>
+    </a>
+    <div class="bg-white shadow overflow-hidden rounded-lg">
+      <div class="px-4 py-5 sm:px-6">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">Ticket Details #{{ticket.id}}</h3>
+      </div>
+      <div class="border-t border-gray-200 px-4 py-5 sm:p-0">
+        <dl class="sm:divide-y sm:divide-gray-200">
+          <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">Title</dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              {{ticket.title}}</dd>
+          </div>
+          <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">Author</dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              {{ticket.author}}</dd>
+          </div>
+          <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">Assignee</dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              {% if ticket.assigned_to == None %}
+              N/A
+              {% else %}
+              {{ticket.assigned_to}}
+              {% endif %}
+            </dd>
+          </div>
+          <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">Status</dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              {% if ticket.status == 'assigned' %}
+              <span
+                class="inline-flex rounded-full bg-blue-100 px-2 text-xs font-semibold leading-5 text-blue-800">{{ticket.status}}</span>
+              {% elif ticket.status == 'Pending' %}
+              <span
+                class="inline-flex rounded-full bg-yellow-100 px-2 text-xs font-semibold leading-5 text-yellow-800">{{ticket.status}}</span>
+              {% else %}
+              <span
+                class="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">{{ticket.status}}</span>
+              {% endif %}
+            </dd>
+          </div>
+          <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">Created</dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              {{ticket.created_on}}</dd>
+          </div>
+          <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">Deadline</dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              {{ticket.deadline}}</dd>
+          </div>
+          <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">Description</dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{ticket.description}}</dd>
+          </div>
+          <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">Contextual Information</dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              {% if ticket.context == None %}
+              N/A
+              {% else %}
+              {{ticket.context}}
+              {% endif %}
+          </div>
+          {% if ticket.status == 'COMPLETED' %}
+          <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">Personal Notes</dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{ticket.context}}</dd>
+          </div>
+          <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">Attachment</dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              <ul role="list" class="border border-gray-200 rounded-md divide-y divide-gray-200">
+                <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
+                  <div class="w-0 flex-1 flex items-center">
+                    <svg class="flex-shrink-0 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                      <path fill-rule="evenodd"
+                        d="M8 4a3 3 0 00-3 3v4a5 5 0 0010 0V7a1 1 0 112 0v4a7 7 0 11-14 0V7a5 5 0 0110 0v4a3 3 0 11-6 0V7a1 1 0 012 0v4a1 1 0 102 0V7a3 3 0 00-3-3z"
+                        clip-rule="evenodd" />
+                    </svg>
+                    <span class="ml-2 flex-1 w-0 truncate"> {{ticket.files}} </span>
+                  </div>
+                  <div class="ml-4 flex-shrink-0">
+                    <form action="{% url 'downloadFile' %}" method="get">
+                      <input type="hidden" name="ticket_id" value="{{ticket.id}}">
+                      <button type="submit" class="font-medium text-indigo-600 hover:text-indigo-500"> Download </button>
+                    </form>
+                  </div>
+                </li>
+              </ul>
+            </dd>
+          </div>
+          {% endif %}
+        </dl>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+asgiref==3.5.2
+backports.zoneinfo==0.2.1
+dj-database-url==0.5.0
+Django==4.0.5
+django-browser-reload==1.6.0
+django-data-seeder==0.2.0
+django-filter==22.1
+django-heroku==0.3.1
+django-tailwind==3.3.0
+gunicorn==20.1.0
+psycopg2==2.9.3
+smart-open==6.0.0
+sqlparse==0.4.2
+whitenoise==6.2.0

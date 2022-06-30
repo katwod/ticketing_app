@@ -1,0 +1,88 @@
+{% load tailwind_tags %}
+{% tailwind_css %}
+
+{% block content %}
+<div class="bg-gray-200 min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+  <div class="w-sm space-y-8">
+    <div class="bg-white shadow overflow-hidden rounded-lg">
+      <form method="post" action="newTicketCreate">
+        {% csrf_token %}
+        <div class="space-y-8 divide-y divide-gray-200 sm:space-y-5 px-6 py-6">
+          <div>
+            <div>
+              <h3 class="text-lg leading-6 font-medium text-gray-900">Tickets</h3>
+              <p class="mt-1 max-w-2xl text-sm text-gray-500">You can add your ticket here </p>
+            </div>
+
+            <div class="mt-6 sm:mt-5 space-y-6 sm:space-y-5">
+              <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+                <label class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"> Title
+                </label>
+                <div class="mt-1 sm:mt-0 sm:col-span-2">
+                  <input type="text" name="title" required
+                    class="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md">
+                </div>
+              </div>
+
+              <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+                <label class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"> Description </label>
+                <div class="mt-1 sm:mt-0 sm:col-span-2">
+                  <textarea rows="3" name="description" required
+                    class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"></textarea>
+                </div>
+              </div>
+
+              <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+                <label class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"> Contextual Information </label>
+                <div class="mt-1 sm:mt-0 sm:col-span-2">
+                  <textarea rows="3" name="contextual_info"
+                    class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"></textarea>
+                </div>
+              </div>
+
+              <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+                <label class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"> Deadline
+                </label>
+                <div class="mt-1 sm:mt-0 sm:col-span-2">
+                  <input type="date" name="deadline" required
+                    class="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Error Handling -->
+        {% if messages|length > 0 %}
+        <div class="rounded-md bg-red-50 p-4">
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <svg class="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                  clip-rule="evenodd" />
+              </svg>
+            </div>
+            {% for message in messages %}
+            <h3 class="ml-3 text-sm font-medium text-red-800">{{message}}</h3>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+
+        <div class="pt-5 pr-7">
+          <div class="flex justify-end">
+            <a href="{% url 'assistanteFR'%}">
+              <button type="button"
+                class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Cancel</button>
+            </a>
+            <button type="submit"
+              class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Save</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
