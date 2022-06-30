@@ -27,7 +27,8 @@ SECRET_KEY = 'django-insecure-uvrt#2w^%+-08xjgcil$&50vbwrzhbn*43yl!jzv2g!@ntv-we
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1',            
+                    'ticketing_app.herokuapp.com']
 
 
 # Application definition
@@ -84,8 +85,11 @@ WSGI_APPLICATION = 'main.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'ticketing_app',
+        'USER' : 'postgres',
+        'PASSWORD' : 'kpmgapp',
+        'HOST' : 'localhost'
     }
 }
 
